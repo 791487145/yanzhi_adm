@@ -1,0 +1,204 @@
+ <!DOCTYPE html>
+<html>
+
+
+<!-- Mirrored from www.zi-han.net/theme/hplus/table_basic.html by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 20 Jan 2016 14:20:01 GMT -->
+<head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+
+    <title>趣约视频商务后台</title>
+    <meta name="keywords" content="趣约视频商务后台">
+    <meta name="description" content="趣约视频商务后台">
+
+    <link rel="shortcut icon" href="favicon.ico">
+    <link href="/cpsdata/css/bootstrap.min14ed.css?v=3.3.6" rel="stylesheet">
+    <link href="/cpsdata/css/font-awesome.min93e3.css?v=4.4.0" rel="stylesheet">
+    <link href="/cpsdata/css/plugins/iCheck/custom.css" rel="stylesheet">
+    <link href="/cpsdata/css/animate.min.css" rel="stylesheet">
+    <link href="/cpsdata/css/style.min862f.css?v=4.1.0" rel="stylesheet">
+
+</head>
+
+<body class="gray-bg" style="overflow: scroll;">
+    <div class="wrapper wrapper-content animated fadeInRight">
+        <div class="row">
+            <div class="ibox float-e-margins">
+                <div class="ibox-title">
+                    <h5>VIP综合报表</h5>
+                </div>
+                <div class="ibox-content">
+                    <form class="form-inline" role="form" action="" style="margin-bottom: 20px;">
+                        平台:
+                        <select name="device" class="form-control">
+                            <option value="">全部</option>
+                            <option value="1" <?php if(isset($param['device'])&&$param['device']==1) echo 'selected="selected"';?>>IOS</option>
+                            <option value="2" <?php if(isset($param['device'])&&$param['device']==2) echo 'selected="selected"';?>>安卓</option>
+                        </select>
+                        <input name="start_time" class="form-control layer-date" id="start" value="{$param['start_time']}" type="text" placeholder="开始日期">
+                        <input name="end_time" class="form-control layer-date" id="end" value="{$param['end_time']}" type="text" placeholder="结束日期" >
+
+
+
+
+                        {if $channel[0] != '100000000'}
+                        渠道:
+                            <div class="input-group">
+
+                                <input type="text" class="form-control" id="test">
+                                <input type="hidden" name="channel_id" id="channle_id" value="<?php echo empty($param['channel_id'][0]) ? '' : $param['channel_id'][0] ?>">
+                                <div class="input-group-btn">
+                                    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+                                        <span class="caret"></span>
+                                    </button>
+                                    <ul class="dropdown-menu dropdown-menu-right" role="menu">
+                                    </ul>
+                                </div>
+                            </div>
+                        {/if}
+
+
+
+                        <button class="btn btn-primary" style="margin-bottom: 0" type="submit">查询</button>
+
+                    </form>
+                    <table class="table table-bordered">
+
+                        <thead>
+                          <tr>
+                            <th> - </th>
+                            <th>总安装量</th>
+                            <th>总注册量</th>
+                            <th class="tooltip-demo">总充值总额(元)</th>
+                            <th >总趣币充值(元)</th>
+                            <th >总vip充值(元)</th>
+                            <th>总充值用户数</th>
+                            <th>总注册转化率</th>
+                            <th>总充值转化率</th>
+                            <th>总充值ARP(元) </th>
+                            <th> - </th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                  <td> - </td>
+                                  <td>{$channel_tabel['zong']['down_log_account_num']}</td>
+                                  <td>{$channel_tabel['zong']['reg_log_account_num']}</td>
+                                  <td>{$channel_tabel['zong']['paymeny_account_num']}</td>
+                                  <td>{$channel_tabel['zong']['paymeny_account_num_money']}</td>
+                                  <td>{$channel_tabel['zong']['paymeny_account_num_vip']}</td>
+                                  <td>{$channel_tabel['zong']['paymeny_account_people_num']}</td>
+                                  <td>{$channel_tabel['zong']['reg_dowm_account_rate']}</td>
+                                  <td>{$channel_tabel['zong']['paymeny_people_reg_account_rate']}</td>
+                                  <td>{$channel_tabel['zong']['payment_reg_account_rate']}</td>
+                                  <td> - </td>
+                            </tr>
+                        </tbody>
+
+                        <thead>
+                            <tr>
+                                <th>渠道名称</th>
+                                <th>安装量</th>
+                                <th>注册量</th>
+                                <th class="tooltip-demo">充值总额(元)</th>
+                                <th >趣币充值(元)</th>
+                                <th >vip充值(元)</th>
+                                <th>充值用户数</th>
+                                <th>注册转化率</th>
+                                <th>充值转化率</th>
+                                <th>充值ARP(元) </th>
+
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {foreach $channel_tabel['fen'] as $val}
+                                <tr>
+                                    <td>{$val['channel_name']}</td>
+                                    <td>{$val['down_log_num']}</td>
+                                    <td>{$val['reg_log_num']}</td>
+                                    <td>{$val['paymeny_num']}</td>
+                                    <td>{$val['paymeny_num_money']}</td>
+                                    <td>{$val['paymeny_num_vip']}</td>
+                                    <td>{$val['paymeny_people_num']}</td>
+                                    <td>{$val['reg_dowm_rate']}</td>
+                                    <td>{$val['paymeny_people_reg_rate']}</td>
+                                    <td>{$val['payment_reg_rate']}</td>
+                                </tr>
+                            {/foreach}
+
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="/cpsdata/js/jquery.min.js?v=2.1.4"></script>
+    <script src="/cpsdata/js/plugins/layer/layer.min.js"></script>
+    <script src="/cpsdata/plugins/laydate/laydate.js"></script>
+    <script id="bsjs" src="//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <script src="/cpsdata/bootstrap-suggest.js?ver=201903271530"></script>
+    <script src="/cpsdata/js/plugins/slimscroll/jquery.slimscroll.min.js"></script>
+
+
+
+    <script type="text/javascript">
+
+        laydate({
+            elem: '#start', //需显示日期的元素选择器
+              event: 'click', //触发事件
+              format: 'YYYY-MM-DD', //日期格式
+              istime: false, //是否开启时间选择
+              isclear: true, //是否显示清空
+              istoday: true, //是否显示今天
+              issure: false, //是否显示确认
+              festival: false, //是否显示节日
+              min: '1900-01-01 00:00:00', //最小日期
+              max: '2099-12-31 23:59:59', //最大日期
+              start: '<?php echo date('Y-m-d')?>',  //开始日期
+              fixed: false, //是否固定在可视区域
+              zIndex: 99999999 //css z-index
+        });
+        laydate({
+            elem: '#end', //需显示日期的元素选择器
+              event: 'click', //触发事件
+              format: 'YYYY-MM-DD', //日期格式
+              istime: false, //是否开启时间选择
+              isclear: true, //是否显示清空
+              istoday: true, //是否显示今天
+              issure: false, //是否显示确认
+              festival: false, //是否显示节日
+              min: '1900-01-01 00:00:00', //最小日期
+              max: '2099-12-31 23:59:59', //最大日期
+              start: '<?php echo date('Y-m-d')?>',  //开始日期
+              fixed: false, //是否固定在可视区域
+              zIndex: 99999999 //css z-index
+        });
+
+        initTest();
+
+        function initTest() {
+            $("#test").bsSuggest('init', {
+                clearable: true,
+                url: "/admin/channel/search?channel_name=",
+                idField: "id",
+                keyField: "name"
+            }).on('onDataRequestSuccess', function (e, result) {
+            }).on('onSetSelectValue', function (e, keyword, data) {
+                $("#channle_id").val(data.id)
+            }).on('onUnsetSelectValue', function () {
+
+            }).on('onShowDropdown', function (e, data) {
+
+            }).on('onHideDropdown', function (e, data) {
+
+            });
+        }
+
+    </script>
+</body>
+
+
+<!-- Mirrored from www.zi-han.net/theme/hplus/table_basic.html by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 20 Jan 2016 14:20:01 GMT -->
+</html>

@@ -1,0 +1,126 @@
+<?php
+namespace app\agent\model;
+use think\Model;
+class StaticModel extends Model
+{
+    protected $table = 'app_statistics';
+    protected $model = null;
+
+	public function getOrders($start=0, $end=0, $status=null, $is_agent=null, $gt0=0) {
+        $model = $this->alias('o')->join('app_manager u','o.manager_id = u.id','left');
+        if($start > 0 && $end > 0) {
+            $end += 86400;
+            $model->where("o.add_time >= $start and o.add_time <= $end");
+        }
+        if($gt0 > 0) {
+            $model->where('o.all_recharge_num > 0');
+        }
+        if($is_agent !== null) {
+            $model->where('u.is_agent', $is_agent);
+        }
+        if($status !== null) {
+            $model->where('o.status', $status);
+        }
+        $list = $this->field('o.*,u.username, u.pay_name, u.pay_type, u.pay_account, u.ratio, u.remarks, u.is_agent, u.id as mid')->order('o.id DESC')->paginate(10);
+        $page = $list->render();
+        return ['list'=>$list, 'page'=>$page];
+	}
+
+	public function getStatistics($user_id, $start, $end, $device) {
+		if($end == 0) $end = time();
+        if(strtotime(date('Y-m-d')) == $end) $end += 86400;
+        $where = "manager_id = $user_id and count_time >= $start and count_time <= $end";
+        $iosField = 'sum(ios_click_num) as click_num, sum(ios_install_num) as install_num, sum(ios_register_num) as register_num, sum(ios_recharge_num) as recharge_num, sum(ios_recharge_member_num) as recharge_member_num';
+        $androidField = 'sum(android_click_num) as click_num, sum(android_install_num) as install_num, sum(android_register_num) as register_num, sum(android_recharge_num) as recharge_num, sum(android_recharge_member_num) as recharge_member_num';
+        $allField = 'sum(ios_click_num + android_click_num) as click_num, sum(ios_install_num + android_install_num) as install_num, sum(ios_register_num + android_register_num) as register_num, sum(ios_recharge_num + android_recharge_num) as recharge_num, sum(ios_recharge_member_num + android_recharge_member_num) as recharge_member_num';
+        if($device == 1) {
+            $field = $iosField;
+        }else if($device == 2) {
+            $field = $androidField;
+        }else {
+            $field = $allField;
+        }
+        $temp = $this->where($where)->field($field)->order('count_time', 'DESC')->find();
+        return $temp;
+	}
+
+    public function setYesterday() {
+        $userModel = new UserModel();
+        $countModel = new CountModel;
+        $managers = $userModel->getAllCps();
+        $count_time = strtotime(date('Y-m-d')) - 86400;
+        $add_list = [];
+
+        foreach($managers as $manager) {
+            $manager_id = $manager['id'];
+            $manager_name = $manager['username'];
+            $where['manager_id'] = $manager_id;
+            $add_data['manager_id'] = $manager_id;
+            $add_data['manager_name'] = $manager_name;
+            $add_data['ios_click_num'] = 0;
+            $add_data['android_click_num'] = 0;
+            $add_data['ios_install_num'] = 0;
+            $add_data['android_install_num'] = 0;
+            $add_data['ios_register_num'] = 0;
+            $add_data['android_register_num'] = 0;
+            $add_data['ios_recharge_num'] = 0;
+            $add_data['android_recharge_num'] = 0;
+            $add_data['ios_recharge_member_num'] = 0;
+            $add_data['android_recharge_member_num'] = 0;
+            $add_data['all_recharge_num'] = 0;
+            $add_data['status'] = 0;
+            $add_data['count_time'] = $count_time;
+            $add_data['add_time'] = time();
+            $list = $countModel->where('add_time', '>=', $count_time)->where('add_time', '<', $count_time + 86400)->where($where)->select();
+            
+            foreach($list as $v) {
+                if($v['device'] == 1) { // IOS
+                    $add_data['ios_click_num'] += 1;
+                    $add_data['ios_install_num'] += $v['is_install'] == 1 ? 1 : 0;
+                    $add_data['ios_register_num'] += $v['is_register'] == 1 ? 1 : 0;
+                    
+                }else { // 安卓
+                    $add_data['android_click_num'] += 1;
+                    $add_data['android_install_num'] += $v['is_install'] == 1 ? 1 : 0;
+                    $add_data['android_register_num'] += $v['is_register'] == 1 ? 1 : 0;
+                }
+            }
+            $temp = $this->getRechargeNum($manager_id, $count_time);
+            foreach($temp as $key=>$value) {
+                $add_data[$key] = $value;
+            }
+            $add_list[] = $add_data;
+        }
+        $this->saveAll($add_list);
+        
+    }
+
+    public function getRechargeNum($manager_id, $starttime) {
+        if(!is_object($this->model)) {
+            $this->model = new RechargeModel;
+        }
+        $model = $this->model;
+        $list = $model->getDayOrder($starttime, $starttime+86400, $manager_id);
+
+        $data = ['ios_recharge_num'=>0, 'android_recharge_num'=>0, 'ios_recharge_member_num'=>0, 'android_recharge_member_num'=>0];
+        $ios_users = [];
+        $android_users = [];
+        foreach($list as $v) {
+            if($v['device'] == 1) {
+                if(!in_array($v['user_id'], $ios_users)) {
+                    $ios_users[$v['user_id']] = '';
+                }
+                $data['ios_recharge_num'] += $v['money'];
+            }else { // if($v['device'] == 2) 
+                if(!in_array($v['user_id'], $android_users)) {
+                    $ios_users[$v['user_id']] = '';
+                }
+                $data['android_recharge_num'] += $v['money'];
+            }
+        }
+        $data['ios_recharge_member_num'] = count($ios_users);
+        $data['android_recharge_member_num'] = count($android_users);
+        return $data;
+    }
+}
+?>

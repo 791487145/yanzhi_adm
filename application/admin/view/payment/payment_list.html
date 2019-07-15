@@ -1,0 +1,141 @@
+ <!DOCTYPE html>
+<html>
+
+
+<!-- Mirrored from www.zi-han.net/theme/hplus/table_basic.html by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 20 Jan 2016 14:20:01 GMT -->
+<head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+
+    <title>趣约视频商务后台</title>
+    <meta name="keywords" content="趣约视频商务后台">
+    <meta name="description" content="趣约视频商务后台">
+
+    <link rel="shortcut icon" href="favicon.ico">
+    <link href="/cpsdata/css/bootstrap.min14ed.css?v=3.3.6" rel="stylesheet">
+    <link href="/cpsdata/css/font-awesome.min93e3.css?v=4.4.0" rel="stylesheet">
+    <link href="/cpsdata/css/plugins/iCheck/custom.css" rel="stylesheet">
+    <link href="/cpsdata/css/animate.min.css" rel="stylesheet">
+    <link href="/cpsdata/css/style.min862f.css?v=4.1.0" rel="stylesheet">
+
+</head>
+
+<body class="gray-bg">
+    <div class="wrapper wrapper-content animated fadeInRight">
+        <div class="row">
+            <div class="ibox float-e-margins">
+                    <div class="ibox-title">
+                        <h5>充值统计</h5>
+                        <div class="ibox-tools">
+                        </div>
+                    </div>
+                    <div class="ibox-content">
+                        <form class="form-inline" role="form" action="" method="GET" style="margin-bottom: 20px;">
+                            渠道：
+                            <select name="channel_id" class="form-control">
+                                <option value="" {$data['channel_id'] == '' ?  'selected' : ''}>全部</option>
+                                <?php foreach($channels as $v){?>
+                                    <option value="<?php echo $v['id']?>" {$data['channel_id'] == $v['id'] ?  'selected' : ''}><?php echo $v['name']?></option>
+                                <?php }?>
+                            </select>
+                            订单类型：
+                            <select name="type" class="form-control">
+                                <option value="" {$data['type'] == '' ?  'selected' : ''}>全部</option>
+                                <option value="1" {$data['type'] == '1' ?  'selected' : ''}>充值余额</option>
+                                <option value="2" {$data['type'] == '2' ?  'selected' : ''}>充值VIP</option>
+                            </select>
+                            计入渠道：
+                            <select name="channel_statis" class="form-control">
+                                <option value="" {$data['channel_statis'] == '' ?  'selected' : ''}>全部</option>
+                                <option value="0" {$data['channel_statis'] == '0'?  'selected' : ''}>否</option>
+                                <option value="1" {$data['channel_statis'] == '1' ?  'selected' : ''}>是</option>
+                            </select>
+                            <button class="btn btn-primary" style="margin-bottom: 0" type="submit">查询</button>
+                        </form>
+                        <table class="table table-bordered">
+                            <thead>
+                                <tr>
+                                    <th>订单号</th>
+                                    <th>充值日期</th>
+                                    <th>渠道ID</th>
+                                    <th>渠道名称</th>
+                                    <th>状态</th>
+                                    <th>充值用户</th>
+                                    <th>支付方式</th>
+                                    <th>支付金额</th>
+                                    <th>操作</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            <?php foreach($payments as $v){ ?>
+                                <tr>
+                                    <td><?php echo $v['sn']?></td>
+                                    <td><?php echo empty($v['pay_time']) ? '-' : date('Y-m-d H:i:s', $v['pay_time']) ?></td>
+                                    <td><?php echo $v['channel_id']?></td>
+                                    <td><?php echo $v['channel']['name']?></td>
+                                    <td>
+                                      <?php echo $v['status'] == 1 ? '<span class="badge badge-danger">已支付</span>' : '未支付'?>
+                                    </td>
+                                    <td><?php echo $v['user']['user_login']?></td>
+                                    <td>
+                                        {$v->pay_mode == 2 ? '微信支付' : '支付宝'}
+                                    </td>
+                                    <td><b class="badge badge-success"><?php echo $v['money']?></b></td>
+                                    <td>
+                                      -
+                                    </td>
+                                </tr>
+                            <?php }?>
+                            </tbody>
+                        </table>
+                        <?php echo $payments->render($data)?>
+
+                    </div>
+                </div>
+           
+        </div>
+    </div>
+    <script src="/cpsdata/js/jquery.min.js?v=2.1.4"></script>
+    <script src="/cpsdata/js/plugins/slimscroll/jquery.slimscroll.min.js"></script>
+    <script src="/cpsdata/js/plugins/layer/layer.min.js"></script>
+    <script src="/cpsdata/plugins/laydate/laydate.js"></script>
+
+    <!-- <script src="/cpsdata/js/plugins/pace/pace.min.js"></script> -->
+    <script type="text/javascript">
+        laydate({
+            elem: '#start', //需显示日期的元素选择器
+              event: 'click', //触发事件
+              format: 'YYYY-MM-DD', //日期格式
+              istime: false, //是否开启时间选择
+              isclear: true, //是否显示清空
+              istoday: true, //是否显示今天
+              issure: false, //是否显示确认
+              festival: false, //是否显示节日
+              min: '1900-01-01 00:00:00', //最小日期
+              max: '2099-12-31 23:59:59', //最大日期
+              // start: '<?php echo date('Y-m-d')?>',  //开始日期
+              fixed: false, //是否固定在可视区域
+              zIndex: 99999999 //css z-index
+        });
+        laydate({
+            elem: '#end', //需显示日期的元素选择器
+              event: 'click', //触发事件
+              format: 'YYYY-MM-DD', //日期格式
+              istime: false, //是否开启时间选择
+              isclear: true, //是否显示清空
+              istoday: true, //是否显示今天
+              issure: false, //是否显示确认
+              festival: false, //是否显示节日
+              min: '1900-01-01 00:00:00', //最小日期
+              max: '2099-12-31 23:59:59', //最大日期
+              // start: '<?php echo date('Y-m-d')?>',  //开始日期
+              fixed: false, //是否固定在可视区域
+              zIndex: 99999999 //css z-index
+        });
+    </script>
+</body>
+
+<!-- Mirrored from www.zi-han.net/theme/hplus/table_basic.html by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 20 Jan 2016 14:20:01 GMT -->
+</html>

@@ -1,0 +1,70 @@
+ <!DOCTYPE html>
+<html>
+
+
+<!-- Mirrored from www.zi-han.net/theme/hplus/table_basic.html by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 20 Jan 2016 14:20:01 GMT -->
+<head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+
+    <title>趣约视频商务后台</title>
+    <meta name="keywords" content="趣约视频商务后台">
+    <meta name="description" content="趣约视频商务后台">
+
+    <link rel="shortcut icon" href="favicon.ico">
+    <link href="/cpsdata/css/bootstrap.min14ed.css?v=3.3.6" rel="stylesheet">
+    <link href="/cpsdata/css/font-awesome.min93e3.css?v=4.4.0" rel="stylesheet">
+    <link href="/cpsdata/css/plugins/iCheck/custom.css" rel="stylesheet">
+    <link href="/cpsdata/css/animate.min.css" rel="stylesheet">
+    <link href="/cpsdata/css/style.min862f.css?v=4.1.0" rel="stylesheet">
+
+</head>
+
+<body class="gray-bg">
+    <div class="wrapper wrapper-content animated fadeInRight">
+        <div class="row">
+            <div class="ibox float-e-margins">
+                    <div class="ibox-title">
+                        <h5>APP访问统计</h5>
+                        <div class="ibox-tools">
+                        </div>
+                    </div>
+                    <div class="ibox-content">
+                        <table class="table table-bordered">
+                            <thead>
+                                <tr>
+                                    <th>访问时间</th>
+                                    <th>访问用户</th>
+                                    <th>网址</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            <?php foreach($api_logs as $v){ ?>
+                                <tr>
+                                    <td><?php echo date('Y-m-d H:i:s', $v['logtime'])?></td>
+                                    <td><?php echo $v['user']['user_login']?></td>
+                                    <td><?php echo $v['uri']?></td>
+                                </tr>
+                            <?php }?>
+                            </tbody>
+                        </table>
+                        <?php echo $api_logs->render()?>
+
+                    </div>
+                </div>
+           
+        </div>
+    </div>
+    <script src="/cpsdata/js/jquery.min.js?v=2.1.4"></script>
+    <script src="/cpsdata/js/plugins/slimscroll/jquery.slimscroll.min.js"></script>
+    <script src="/cpsdata/js/plugins/layer/layer.min.js"></script>
+    <script src="/cpsdata/plugins/laydate/laydate.js"></script>
+
+    <!-- <script src="/cpsdata/js/plugins/pace/pace.min.js"></script> -->
+   
+</body>
+
+<!-- Mirrored from www.zi-han.net/theme/hplus/table_basic.html by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 20 Jan 2016 14:20:01 GMT -->
+</html>

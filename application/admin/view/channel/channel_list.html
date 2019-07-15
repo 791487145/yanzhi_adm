@@ -1,0 +1,111 @@
+ <!DOCTYPE html>
+<html>
+
+
+<!-- Mirrored from www.zi-han.net/theme/hplus/table_basic.html by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 20 Jan 2016 14:20:01 GMT -->
+<head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+
+    <title>趣约视频商务后台</title>
+    <meta name="keywords" content="趣约视频商务后台">
+    <meta name="description" content="趣约视频商务后台">
+
+    <link rel="shortcut icon" href="favicon.ico">
+    <link href="/cpsdata/css/bootstrap.min14ed.css?v=3.3.6" rel="stylesheet">
+    <link href="/cpsdata/css/font-awesome.min93e3.css?v=4.4.0" rel="stylesheet">
+    <link href="/cpsdata/css/plugins/iCheck/custom.css" rel="stylesheet">
+    <link href="/cpsdata/css/animate.min.css" rel="stylesheet">
+    <link href="/cpsdata/css/style.min862f.css?v=4.1.0" rel="stylesheet">
+
+</head>
+
+<body class="gray-bg">
+    <div class="wrapper wrapper-content animated fadeInRight">
+        <div class="row">
+            <div class="ibox float-e-margins">
+                    <div class="ibox-title">
+                        <h5>渠道列表</h5>
+                        <div class="ibox-tools">
+
+                        </div>
+                    </div>
+                    <div class="ibox-content">
+                        {if $user_type == 1}
+                            <form class="form-inline" role="form" action="" style="margin-bottom: 20px;">
+                                商务人员:
+                                <select name="user_store_id" class="form-control">
+                                    <option value="">全部</option>
+                                    {foreach $user_store as $val}
+                                        <option value="{$val['id']}" {$user_store_id == $val['id'] ? 'selected' : ''}>{$val['user_login']}</option>
+                                    {/foreach}
+                                </select>
+                                <button class="btn btn-primary" style="margin-bottom: 0" type="submit">查询</button>
+
+                                扣量：
+                                <input type="text" name="not_effective" value="" placeholder="0">
+                                渠道单独域名：
+                                <input type="text" name="domain" value="" placeholder="0">
+                                <button class="btn btn-primary" style="margin-bottom: 0" type="submit">添加</button>
+                            </form>
+                        {/if}
+                        <table class="table table-bordered">
+                            <thead>
+                                <tr>
+                                    <th>渠道ID</th>
+                                    <th>渠道名称</th>
+
+                                    <th>趣币分成比率</th>
+                                    <th>vip分成比率</th>
+                                    <th>姓名</th>
+                                    <th>支付方式</th>
+                                    <th>账户</th>
+                                    <th>操作</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            <?php foreach($channels as $v){ ?>
+                                <tr>
+                                    <td><?php echo $v['id']?></td>
+                                    <td><?php echo $v['html'].$v['name']?></td>
+
+                                    <td>
+                                      <?php echo $v['ratio']?>%
+                                    </td>
+                                    <td>
+                                        <?php echo $v['ratio_vip']?>%
+                                    </td>
+                                    <td>
+                                      <?php echo $v['pay_name']?>
+                                    </td>
+                                    <td>
+                                      <?php echo $v['pay_type']?>
+                                    </td>
+                                    <td>
+                                      <?php echo $v['pay_account']?>
+                                    </td>
+                                    <td>
+                                        <a href="{:Url('admin/channel/edit',['id'=>$v['id']])}">修改</a>
+                                    </td>
+                                </tr>
+                            <?php }?>
+                            </tbody>
+                        </table>
+
+                    </div>
+                </div>
+           
+        </div>
+    </div>
+    <script src="/cpsdata/js/jquery.min.js?v=2.1.4"></script>
+    <!-- <script src="./cpsdata/js/plugins/slimscroll/jquery.slimscroll.min.js"></script> -->
+    <script src="/cpsdata/js/plugins/layer/layer.min.js"></script>
+    <script src="/cpsdata/plugins/laydate/laydate.js"></script>
+
+    <!-- <script src="./cpsdata/js/plugins/pace/pace.min.js"></script> -->
+</body>
+
+<!-- Mirrored from www.zi-han.net/theme/hplus/table_basic.html by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 20 Jan 2016 14:20:01 GMT -->
+</html>

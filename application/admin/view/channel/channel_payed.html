@@ -1,0 +1,184 @@
+ <!DOCTYPE html>
+<html>
+
+
+<!-- Mirrored from www.zi-han.net/theme/hplus/table_basic.html by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 20 Jan 2016 14:20:01 GMT -->
+<head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+
+    <title>趣约视频商务后台</title>
+    <meta name="keywords" content="趣约视频商务后台">
+    <meta name="description" content="趣约视频商务后台">
+
+    <link rel="shortcut icon" href="favicon.ico">
+    <link href="/cpsdata/css/bootstrap.min14ed.css?v=3.3.6" rel="stylesheet">
+    <link href="/cpsdata/css/font-awesome.min93e3.css?v=4.4.0" rel="stylesheet">
+    <link href="/cpsdata/css/plugins/iCheck/custom.css" rel="stylesheet">
+    <link href="/cpsdata/css/animate.min.css" rel="stylesheet">
+    <link href="/cpsdata/css/style.min862f.css?v=4.1.0" rel="stylesheet">
+
+</head>
+
+<body class="gray-bg">
+    <div class="wrapper wrapper-content animated fadeInRight">
+        <div class="row">
+            <div class="ibox float-e-margins">
+                <div class="ibox-title">
+                    <h5>渠道打款</h5>
+                    <div class="ibox-tools">
+                    </div>
+                </div>
+                <div class="ibox-content">
+                    <form class="form-inline" role="form" action="" method="GET" style="margin-bottom: 20px;">
+                        筛选:
+                        打款状态：
+                        <select name="status" class="form-control">
+                            <option value="0" {$param['status'] == 0 ?  'selected' :''}>全部</option>
+                            <option value="1" {$param['status'] == 1 ?  'selected' :' '}>待打款</option>
+                            <option value="2" {$param['status'] == 2 ?  'selected' :' '}>已打款</option>
+                        </select>
+
+                        出账日期：
+                        <input name="start_time" class="form-control layer-date" id="start" value="{$param['start_time']}" type="text" placeholder="开始日期">
+                        <input name="end_time" class="form-control layer-date" id="end" value="{$param['end_time']}" type="text" placeholder="结束日期" >
+                        <button class="btn btn-primary" style="margin-bottom: 0" type="submit">查询</button>
+                        <a class="btn btn-primary" style="margin-bottom: 0" href="{:Url('admin/channel/getPayed')}">导出今日表格</a>
+                    </form>
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr>
+                                <th>账单ID</th>
+                                <th>账单日期</th>
+                                <th>渠道ID</th>
+                                <th>渠道名称</th>
+                                <th>备注</th>
+                                <th>所属商务</th>
+                                <th>类型</th>
+                                <th>打款信息</th>
+                                <th>支付状态</th>
+                                <th>vip充值金额</th>
+                                <th>vip分成比率</th>
+                                <th>趣币充值金额</th>
+                                <th>趣币分成比率</th>
+                                <th>渠道扣量</th>
+                                <th>应打款金额</th>
+                                <th>操作</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        <?php foreach($channel_logs as $v){ ?>
+                            <tr>
+                                <td><?php echo $v['id']?></td>
+                                <td><?php echo date('Y-m-d', $v['created_time'])?></td>
+                                <td><?php echo $v['channel_id']?></td>
+                                <td><?php echo $v['channel']['name']?></td>
+                                <td><?php echo $v['remark']?></td>
+                                <td><?php echo $v['user']['user_login']?></td>
+                                <td>
+                                  {$v->type}
+                                </td>
+                                <td>
+                                  <?php echo $v['pay_info']?>
+                                </td>
+                                <td>
+                                  <?php echo $v['status'] == 2 ? '<span class="badge badge-primary">已打款</span>' : '<span class="badge badge-danger">待打款</span>'?>
+                                </td>
+                                <td>
+                                  <?php echo $v['payed_payment_num_vip']?>
+                                </td>
+                                <td>
+                                    <?php echo $v['payed_payment_num_vip_ratio']?>
+                                </td>
+                                <td>
+                                    <?php echo $v['payed_payment_num']?>
+                                </td>
+                                <td>
+                                    <?php echo $v['payed_payment_num_ratio']?>
+                                </td>
+                                <td>
+                                  <?php echo $v['channel_num']?>
+                                </td>
+                                <td>
+                                  <?php echo $v['pay_num']?>
+                                </td>
+                                <td>
+                                    {if $v['status'] != 2}
+                                        <a class="btn btn-danger" href="<?php echo url('channel/topayed',['oid'=>$v['id']])?>">打款</a>
+                                    {/if}
+                                </td>
+                            </tr>
+                        <?php }?>
+                        </tbody>
+                    </table>
+                    <?php echo $channel_logs->render() ?>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="/cpsdata/js/jquery.min.js?v=2.1.4"></script>
+    <script src="/cpsdata/js/plugins/slimscroll/jquery.slimscroll.min.js"></script>
+    <script src="/cpsdata/js/plugins/layer/layer.min.js"></script>
+    <script src="/cpsdata/plugins/laydate/laydate.js"></script>
+
+</body>
+
+<script type="text/javascript">
+
+    laydate({
+        elem: '#start', //需显示日期的元素选择器
+        event: 'click', //触发事件
+        format: 'YYYY-MM-DD', //日期格式
+        istime: false, //是否开启时间选择
+        isclear: true, //是否显示清空
+        istoday: true, //是否显示今天
+        issure: false, //是否显示确认
+        festival: false, //是否显示节日
+        min: '1900-01-01 00:00:00', //最小日期
+        max: '2099-12-31 23:59:59', //最大日期
+        start: '<?php echo date('Y-m-d')?>',  //开始日期
+        fixed: false, //是否固定在可视区域
+        zIndex: 99999999 //css z-index
+    });
+    laydate({
+        elem: '#end', //需显示日期的元素选择器
+        event: 'click', //触发事件
+        format: 'YYYY-MM-DD', //日期格式
+        istime: false, //是否开启时间选择
+        isclear: true, //是否显示清空
+        istoday: true, //是否显示今天
+        issure: false, //是否显示确认
+        festival: false, //是否显示节日
+        min: '1900-01-01 00:00:00', //最小日期
+        max: '2099-12-31 23:59:59', //最大日期
+        start: '<?php echo date('Y-m-d')?>',  //开始日期
+        fixed: false, //是否固定在可视区域
+        zIndex: 99999999 //css z-index
+    });
+
+    initTest();
+
+    function initTest() {
+        $("#test").bsSuggest('init', {
+            clearable: true,
+            url: "/admin/channel/search?channel_name=",
+            idField: "id",
+            keyField: "name"
+        }).on('onDataRequestSuccess', function (e, result) {
+        }).on('onSetSelectValue', function (e, keyword, data) {
+            $("#channle_id").val(data.id)
+        }).on('onUnsetSelectValue', function () {
+
+        }).on('onShowDropdown', function (e, data) {
+
+        }).on('onHideDropdown', function (e, data) {
+
+        });
+    }
+
+</script>
+
+<!-- Mirrored from www.zi-han.net/theme/hplus/table_basic.html by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 20 Jan 2016 14:20:01 GMT -->
+</html>

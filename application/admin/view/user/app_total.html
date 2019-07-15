@@ -1,0 +1,127 @@
+ <!DOCTYPE html>
+<html>
+
+
+<!-- Mirrored from www.zi-han.net/theme/hplus/table_basic.html by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 20 Jan 2016 14:20:01 GMT -->
+<head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+
+    <title>趣约视频商务后台</title>
+    <meta name="keywords" content="趣约视频商务后台">
+    <meta name="description" content="趣约视频商务后台">
+
+    <link rel="shortcut icon" href="favicon.ico">
+    <link href="/cpsdata/css/bootstrap.min14ed.css?v=3.3.6" rel="stylesheet">
+    <link href="/cpsdata/css/font-awesome.min93e3.css?v=4.4.0" rel="stylesheet">
+    <link href="/cpsdata/css/plugins/iCheck/custom.css" rel="stylesheet">
+    <link href="/cpsdata/css/animate.min.css" rel="stylesheet">
+    <link href="/cpsdata/css/style.min862f.css?v=4.1.0" rel="stylesheet">
+
+</head>
+
+<body class="gray-bg">
+    <div class="wrapper wrapper-content animated fadeInRight">
+
+        <div class="row">
+            <!-- 用户接口统计 -->
+            <div style="width: 80%">
+                <div class="ibox float-e-margins">
+                    <div class="ibox-title">
+                        <h5>地区模块统计</h5>
+                    </div>
+                    <div class="ibox-content">
+                        <table class="table table-bordered">
+                            <tbody>
+                            {if isset($province['province'])}
+                                <tr>
+                                    {foreach $province['province'] as $k=>$val}
+                                            <td>{$k}</td>
+                                    {/foreach}
+                                </tr>
+                                <tr>
+                                    {foreach $province['province'] as $k=>$val}
+                                            <td>{$val}</td>
+                                    {/foreach}
+                                </tr>
+                            {/if}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <!-- 用户接口统计 -->
+            <div style="width: 80%">
+                <div class="ibox float-e-margins">
+                    <div class="ibox-title">
+                        <h5>设备模块统计</h5>
+                    </div>
+                    <div class="ibox-content">
+                        <table class="table table-bordered">
+                            <tbody>
+                                {if isset($province['device_type'])}
+                                    <tr>
+                                        {foreach $province['device_type'] as $key=>$value}
+                                            <td>{$key}</td>
+                                        {/foreach}
+                                    </tr>
+                                    <tr>
+                                        {foreach $province['device_type'] as $key=>$value}
+                                            <td>{$value}</td>
+                                        {/foreach}
+                                    </tr>
+                                {/if}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <!-- 用户接口统计 -->
+            <div style="width: 80%">
+                <div class="ibox float-e-margins">
+                    <div class="ibox-title">
+                        <h5>用户模块统计</h5>
+                    </div>
+                    <div class="ibox-content">
+                        <table class="table table-bordered">
+                            <tbody>
+                            {foreach($users as $v)}
+                                <tr>
+                                    <td>{$v['user_login']}</td>
+                                    <td>{$v['sex'] == 0 ? '保密' : $v['sex'] == 1 ? '男' : '女'}</td>
+                                    <td>{$v['province']}</td>
+                                    <td>
+                                        {notempty name="$v['token']"}
+                                            {$v['token'][0]['device_type']}
+                                        {/notempty}
+                                    </td>
+                                </tr>
+                            {/foreach}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <?php echo $users->render()  ?>
+            </div>
+        </div>
+
+    </div>
+    <script src="/cpsdata/js/jquery.min.js?v=2.1.4"></script>
+    <script src="/cpsdata/js/plugins/slimscroll/jquery.slimscroll.min.js"></script>
+    <script src="/cpsdata/js/plugins/layer/layer.min.js"></script>
+    <script src="/cpsdata/plugins/laydate/laydate.js"></script>
+
+    <!-- <script src="/cpsdata/js/plugins/pace/pace.min.js"></script> -->
+
+</body>
+
+<!-- Mirrored from www.zi-han.net/theme/hplus/table_basic.html by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 20 Jan 2016 14:20:01 GMT -->
+</html>
