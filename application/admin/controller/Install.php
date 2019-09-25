@@ -1,7 +1,5 @@
 <?php
-
 namespace app\admin\controller;
-
 use app\admin\model\CountModel;
 use app\admin\model\DownLog;
 use app\admin\model\PayPayment;

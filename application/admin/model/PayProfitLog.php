@@ -14,7 +14,7 @@ class PayProfitLog extends Model
         $account_profit = PayPayment::status(PayPayment::STATUS['pay_success'])->channelStatis(PayPayment::CHANNEL_STATUS['no'])->where('ratio','<',100)->payTime($time)->sum('money');
 
         $account_channel_statis = PayPayment::status(PayPayment::STATUS['pay_success'])->payTime($time)->sum('money_system');
-        halt($account_channel_statis);
+
         return compact('account_payment','account_profit','account_channel_statis');
     }
 

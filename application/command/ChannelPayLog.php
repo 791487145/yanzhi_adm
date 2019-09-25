@@ -81,7 +81,7 @@ class ChannelPayLog extends Command
             }
 
         }
-
+       
         if(!empty($data)){
             ChannelPayLogModel::insertAll($data);
         }
