@@ -26,3 +26,13 @@ function cmf_password($pw, $authCode = '')
     $result = "###" . md5(md5($authCode . $pw));
     return $result;
 }
+
+function str_before($subject, $search)
+{
+    return $search === '' ? $subject : explode($search, $subject)[0];
+}
+
+function str_after($subject, $search)
+{
+    return $search === '' ? $subject : array_reverse(explode($search, $subject, 2))[0];
+}

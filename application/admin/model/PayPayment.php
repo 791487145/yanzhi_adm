@@ -5,6 +5,9 @@ use app\admin\model\PayProfit;
 
 class PayPayment extends Model
 {
+    //status
+    const STATUS_NOT_PAY = 0;
+    const STATUS_SUCCESS = 1;
 
     const STATUS = array(
         'not_pay' => 0,
@@ -102,7 +105,7 @@ class PayPayment extends Model
         if($data['channel_id'] != '')  $model = $model->ChannelId($data['channel_id']);
 
         return $model->with(['user' => function($query){
-            $query->field('id,user_login');
+            $query->field('id,user_nickname');
         }],['channel' => function($query){
             $query->field('id,name');
         }])->order('add_time','desc')->paginate($limit);

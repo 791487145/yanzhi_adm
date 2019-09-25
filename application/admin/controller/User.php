@@ -14,6 +14,12 @@ class User extends Common
         header('Location: '.url('admin/login/login'));
     }
 
+    public function agent_list()
+    {
+        $data['users'] = UserModel::where('user_type',UserModel::USER_TYPE_AGENT)->paginate($this->limit);
+        return view('user_agent',$data);
+    }
+
     /**
      * 添加商务人员
      * @return \think\response\View
@@ -27,9 +33,9 @@ class User extends Common
                 exit();
             }
 
-            $data = $this->request->only(['user_pass','user_login']);
+            $data = $this->request->only(['user_pass','user_login','mobile','truename']);
 
-            $res = UserModel::create_one($data,UserModel::USER_TYPE['agent']);
+            $res = UserModel::create_one($data,UserModel::USER_TYPE_AGENT);
             if($res) {
                 $this->success('添加成功');
             }else {
@@ -37,7 +43,22 @@ class User extends Common
             }
         }
 
-        return view('user_agent');
+        return view('user_agent_add');
+    }
+
+    public function agent_update($id)
+    {
+        $user = UserModel::where('id',$id)->find();
+        if(empty($user)){
+            $this->error('参数错误');
+        }
+        if($this->request->isPost()){
+            $data = $this->request->only(['mobile','truename']);
+            UserModel::where('id',$id)->update($data);
+            $this->success('修改成功',url('admin/user/agent_list'));
+        }
+        $data['user'] = $user;
+        return view('user_agent_edit',$data);
     }
 
     public function reset_password() {

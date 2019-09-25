@@ -22,10 +22,12 @@ class DownLog extends Model
     public function getAll()
     {
         return $this->with(['user' => function($query){
-            $query->field('id,user_login');
+            $query->field('id,user_login,user_nickname');
         },'channel' => function($query){
             $query->field('id,name');
-        }]);
+        }])->withSum(['payment' => function($query){
+            $query->where('status',PayPayment::STATUS_SUCCESS);
+        }],'money');
     }
 
     public function user()

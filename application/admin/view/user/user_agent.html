@@ -27,46 +27,54 @@
         <div class="row">
             <div class="ibox float-e-margins">
                     <div class="ibox-title">
-                        <h5>添加商务人员</h5>
+                        <h5>商务列表</h5>
                         <div class="ibox-tools">
+                            <a href="{:Url('admin/user/add_agent')}"><button class="btn btn-primary" style="margin-bottom: 0" type="button">添加新商务人员</button></a>
                         </div>
                     </div>
                     <div class="ibox-content">
-                        <form class="form-horizontal m-t" id="signupForm" action="" method="post">
-                            <div class="form-group">
-                                <label class="col-sm-3 control-label">用户名：</label>
-                                <div class="col-sm-8">
-                                    <input id="username" name="user_login" class="form-control" type="text" aria-required="true" aria-invalid="true" class="error">
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label class="col-sm-3 control-label">密码：</label>
-                                <div class="col-sm-8">
-                                    <input id="password" name="user_pass" class="form-control" type="password">
-                                </div>
-                            </div>
-                            
-                            <div class="form-group">
-                                <div class="col-sm-8 col-sm-offset-3">
-                                    <button class="btn btn-primary" type="submit">确认添加</button>
-                                </div>
-                            </div>
-                        </form>
 
+                        <table class="table table-bordered">
+                            <thead>
+                                <tr>
+                                    <th>商务id</th>
+                                    <th>真实姓名</th>
+                                    <th>电话</th>
+                                    <th>昵称</th>
+                                    <th>操作</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            <?php foreach($users as $v){ ?>
+                                <tr>
+                                    <td><?php echo $v['id']?></td>
+                                    <td><?php echo $v['truename']?></td>
+                                    <td>
+                                      <?php echo $v['mobile']?>
+                                    </td>
+                                    <td>
+                                      <?php echo $v['user_login']?>
+                                    </td>
+                                    <td>
+                                        <a href="{:Url('admin/user/agent_update',['id'=>$v['id']])}">修改</a>
+                                    </td>
+                                </tr>
+                            <?php }?>
+                            </tbody>
+                        </table>
+                        <?php echo $users->render() ?>
                     </div>
                 </div>
            
         </div>
     </div>
     <script src="/cpsdata/js/jquery.min.js?v=2.1.4"></script>
-    <script src="/cpsdata/js/bootstrap.min.js?v=3.3.6"></script>
-    <script src="/cpsdata/js/content.min.js?v=1.0.0"></script>
-    <script src="/cpsdata/js/plugins/validate/jquery.validate.min.js"></script>
-    <script src="/cpsdata/js/plugins/validate/messages_zh.min.js"></script>
-    <script src="/cpsdata/js/demo/form-validate-demo.min.js"></script>
-    <script type="text/javascript" src="http://tajs.qq.com/stats?sId=9051096" charset="UTF-8"></script>
-</body>
+    <!-- <script src="./cpsdata/js/plugins/slimscroll/jquery.slimscroll.min.js"></script> -->
+    <script src="/cpsdata/js/plugins/layer/layer.min.js"></script>
+    <script src="/cpsdata/plugins/laydate/laydate.js"></script>
 
+    <!-- <script src="./cpsdata/js/plugins/pace/pace.min.js"></script> -->
+</body>
 
 <!-- Mirrored from www.zi-han.net/theme/hplus/table_basic.html by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 20 Jan 2016 14:20:01 GMT -->
 </html>

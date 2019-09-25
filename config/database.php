@@ -15,7 +15,7 @@ return [
     // 服务器地址
     'hostname'        => '47.104.87.236',
     // 数据库名
-    'database'        => 'yanzhi',
+    'database'        => 'yanzhis',
     // 用户名
     'username'        => 'root',
     // 密码

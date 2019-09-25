@@ -56,12 +56,12 @@
                                 <tr>
                                     <th>渠道ID</th>
                                     <th>渠道名称</th>
-
                                     <th>趣币分成比率</th>
                                     <th>vip分成比率</th>
                                     <th>姓名</th>
                                     <th>支付方式</th>
                                     <th>账户</th>
+                                    <th>单独域名</th>
                                     <th>操作</th>
                                 </tr>
                             </thead>
@@ -85,6 +85,9 @@
                                     </td>
                                     <td>
                                       <?php echo $v['pay_account']?>
+                                    </td>
+                                    <td>
+                                        <?php echo $v['domain']?>
                                     </td>
                                     <td>
                                         <a href="{:Url('admin/channel/edit',['id'=>$v['id']])}">修改</a>

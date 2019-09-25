@@ -1,5 +1,7 @@
 <?php
+
 namespace app\admin\controller;
+
 use app\admin\model\CountModel;
 use app\admin\model\DownLog;
 use app\admin\model\PayPayment;
@@ -14,8 +16,7 @@ class Install extends Common
 {
     public function install(DownLog $downLog)
     {
-        $installs = $downLog->getAll()->order('id','desc')->paginate($this->limit);
-        $data['installs'] = $downLog->datas($installs);
+        $data['installs'] = $downLog->getAll()->order('id','desc')->paginate($this->limit);
 
         return view('install',$data);
     }

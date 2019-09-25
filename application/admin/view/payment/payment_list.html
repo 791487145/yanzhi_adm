@@ -78,7 +78,7 @@
                                     <td>
                                       <?php echo $v['status'] == 1 ? '<span class="badge badge-danger">已支付</span>' : '未支付'?>
                                     </td>
-                                    <td><?php echo $v['user']['user_login']?></td>
+                                    <td><?php echo $v['user']['user_nickname']?></td>
                                     <td>
                                         {$v->pay_mode == 2 ? '微信支付' : '支付宝'}
                                     </td>

@@ -9,6 +9,7 @@ use think\console\Command;
 use think\console\Input;
 use think\console\Output;
 use app\admin\model\ChannelPayLog as ChannelPayLogModel;
+use think\Log;
 
 class ChannelPayLog extends Command
 {
@@ -33,19 +34,25 @@ class ChannelPayLog extends Command
         }
 
         $data = [];
+        $user_id = [];
         $resurt= PayPayment::with(['channel' => function($query){
             $query->field('id,user_store_id,ratio,ratio_vip');
         }])->status(PayPayment::STATUS['pay_success'])->channelStatis(PayPayment::CHANNEL_STATUS['yes'])->payTime($this->start_time)->select()->toArray();
 
-        foreach ($resurt as $res){
-            $coin = PayProfit::where('user_id',$res['user_id'])->whereBetweenTime('add_time',$this->start_time)->where('type','in',array(PayProfit::TYPE['channel_stiff'],PayProfit::TYPE['channel_child_stiff']))->sum('coin');
-            if($coin == 0){
-                continue;
+        foreach ($resurt as $k=>$res){
+            $coin_m = 0;
+            if(!in_array($res['user_id'],$user_id)){
+                $coin = PayProfit::where('user_id',$res['user_id'])->whereBetweenTime('add_time',$this->start_time)->where('type','in',array(PayProfit::TYPE['channel_stiff'],PayProfit::TYPE['channel_child_stiff']))->sum('coin');
+                $user_id[] = $res['user_id'];
+                if($coin == 0){
+                    continue;
+                }
+                $coin_m = (int)$coin/10;
             }
-            $coin_m = (int)$coin/10;
 
             if(isset($data[$res['channel_id']])){
                 $data[$res['channel_id']]['pay_info'] = $data[$res['channel_id']]['pay_info'].';'.$res['id'];
+                $data[$res['channel_id']]['pay_num'] = $data[$res['channel_id']]['pay_num'] + $coin_m;
             }else{
                 $no_pay_num = PayPayment::where('channel_id',$res['channel_id'])->status(PayPayment::STATUS['pay_success'])->channelStatis(PayPayment::CHANNEL_STATUS['no'])->payTime($this->start_time)->count();
                 $pay_num = PayPayment::where('channel_id',$res['channel_id'])->status(PayPayment::STATUS['pay_success'])->channelStatis(PayPayment::CHANNEL_STATUS['yes'])->payTime($this->start_time)->count();

@@ -103,7 +103,7 @@ class ChannelPayLog extends Model
             $query->field('id,user_login');
         }],['channel' => function($query){
             $query->field('id,name');
-        }])->paginate($limit,false,['query' => $param]);
+        }])->order('id','desc')->paginate($limit,false,['query' => $param]);
     }
 
 }

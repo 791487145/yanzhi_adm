@@ -19,11 +19,16 @@ class PayProfitLog extends Command
         $this->setName('pay_profit_log');
         list($start, $end) = Time::yesterday();
         $this->time = $start;
-        
+        $this->addArgument('time');
     }
 
     protected function execute(Input $input, Output $output)
     {
+        $time = $input->getArgument('time');
+        if(!empty($time)){
+            $this->time = (int)$time;
+        }
+
         $data = PayProfitLogModel::profit_log($this->time);
 
         $data['create_time'] = $this->time;

@@ -48,30 +48,27 @@
                         <thead>
                           <tr>
                             <th> - </th>
-                            <th>总安装量</th>
-                            <th>总注册量</th>
-                            <th class="tooltip-demo">总充值总额(元)</th>
-                              <th >总趣币充值(元)</th>
+                              <th>总注册量</th>
                               <th >总vip充值(元)</th>
-                            <th>总充值用户数</th>
-                            <th>总注册转化率</th>
-                            <th>总充值转化率</th>
-                            <th>总充值ARP(元) </th>
+                              <th >总趣币充值(元)</th>
+                              <th class="tooltip-demo">总充值总额(元)</th>
+                              <th>总充值用户数</th>
+                              <!-- <th>总注册转化率</th>-->
+                              <th>总充值转化率</th>
+                              <th>总充值ARP(元) </th>
                             <th> - </th>
                         </tr>
                         </thead>
                         <tbody>
                           <tr>
                             <td> - </td>
-                            <td>{$channel_tabel['zong']['down_log_account_num']}</td>
-                            <td>{$channel_tabel['zong']['reg_log_account_num']}</td>
-                            <td>{$channel_tabel['zong']['paymeny_account_num']}</td>
-                              <td>{$channel_tabel['zong']['paymeny_account_num_money']}</td>
+                              <td>{$channel_tabel['zong']['reg_log_account_num']}</td>
                               <td>{$channel_tabel['zong']['paymeny_account_num_vip']}</td>
-                            <td>{$channel_tabel['zong']['paymeny_account_people_num']}</td>
-                            <td>{$channel_tabel['zong']['reg_dowm_account_rate']}</td>
-                            <td>{$channel_tabel['zong']['paymeny_people_reg_account_rate']}</td>
-                            <td>{$channel_tabel['zong']['payment_reg_account_rate']}</td>
+                              <td>{$channel_tabel['zong']['paymeny_account_num_money']}</td>
+                              <td>{$channel_tabel['zong']['paymeny_account_num']}</td>
+                              <td>{$channel_tabel['zong']['paymeny_account_people_num']}</td>
+                              <td>{$channel_tabel['zong']['paymeny_people_reg_account_rate']}</td>
+                              <td>{$channel_tabel['zong']['payment_reg_account_rate']}</td>
                             <td> - </td>
                         </tr>
                         </tbody>
@@ -79,13 +76,11 @@
                         <thead>
                             <tr>
                                 <th>渠道名称</th>
-                                <th>安装量</th>
                                 <th>注册量</th>
-                                <th class="tooltip-demo">充值总额(元)</th>
-                                <th >趣币充值(元)</th>
                                 <th >vip充值(元)</th>
+                                <th >趣币充值(元)</th>
+                                <th class="tooltip-demo">充值总额(元)</th>
                                 <th>充值用户数</th>
-                                <th>注册转化率</th>
                                 <th>充值转化率</th>
                                 <th>充值ARP(元) </th>
 
@@ -95,13 +90,11 @@
                             {foreach $channel_tabel['fen'] as $val}
                                 <tr>
                                     <td>{$val['channel_name']}</td>
-                                    <td>{$val['down_log_num']}</td>
                                     <td>{$val['reg_log_num']}</td>
-                                    <td>{$val['paymeny_num']}</td>
-                                    <td>{$val['paymeny_num_money']}</td>
                                     <td>{$val['paymeny_num_vip']}</td>
+                                    <td>{$val['paymeny_num_money']}</td>
+                                    <td>{$val['paymeny_num']}</td>
                                     <td>{$val['paymeny_people_num']}</td>
-                                    <td>{$val['reg_dowm_rate']}</td>
                                     <td>{$val['paymeny_people_reg_rate']}</td>
                                     <td>{$val['payment_reg_rate']}</td>
                                 </tr>

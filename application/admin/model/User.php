@@ -5,6 +5,10 @@ use think\facade\Session;
 use think\facade\Log;
 class User extends Model
 {
+    const USER_TYPE_ADMIN = 1;
+    const USER_TYPE_USER = 2;
+    const USER_TYPE_CHANNEL = 3;
+    const USER_TYPE_AGENT = 5;
 
     const USER_TYPE = array(
         'admin' => 1,

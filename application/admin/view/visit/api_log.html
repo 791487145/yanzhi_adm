@@ -44,7 +44,7 @@
                             <?php foreach($api_logs as $v){ ?>
                                 <tr>
                                     <td><?php echo date('Y-m-d H:i:s', $v['logtime'])?></td>
-                                    <td><?php echo $v['user']['user_login']?></td>
+                                    <td><?php echo $v['user']['user_nickname']?></td>
                                     <td><?php echo $v['uri']?></td>
                                 </tr>
                             <?php }?>
